@@ -3,3 +3,16 @@ __pycache__/
 *.pyc
 .env
 .pytest_cache/
+
+# Terraform local files
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+crash.log
+crash.*.log
+
+# Sensitive key files
+*.pem
+*.key
