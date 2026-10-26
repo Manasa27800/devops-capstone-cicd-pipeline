@@ -1,0 +1,423 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps Control Center</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #0b1120;
+            color: #e5e7eb;
+            min-height: 100vh;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 245px;
+            background: #101827;
+            border-right: 1px solid #263247;
+            padding: 30px 20px;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: 700;
+            margin-bottom: 45px;
+        }
+
+        .logo span {
+            color: #38bdf8;
+        }
+
+        .nav-label {
+            color: #7f8da3;
+            font-size: 11px;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        .nav-item {
+            padding: 13px 14px;
+            margin-bottom: 8px;
+            border-radius: 9px;
+            color: #aab7ca;
+            font-size: 14px;
+        }
+
+        .nav-item.active {
+            color: #7dd3fc;
+            background: #12304a;
+        }
+
+        .main {
+            flex: 1;
+            padding: 35px;
+            min-width: 0;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 35px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .muted {
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .live {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #123427;
+            color: #86efac;
+            border: 1px solid #236746;
+            padding: 10px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4ade80;
+        }
+
+        .section-title {
+            font-size: 17px;
+            margin: 30px 0 17px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .card {
+            background: #121d2e;
+            border: 1px solid #263247;
+            border-radius: 14px;
+            padding: 22px;
+        }
+
+        .card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 23px;
+        }
+
+        .icon {
+            display: grid;
+            place-items: center;
+            width: 43px;
+            height: 43px;
+            border-radius: 12px;
+            background: #1c344c;
+            font-size: 21px;
+        }
+
+        .tag {
+            font-size: 11px;
+            color: #86efac;
+            background: #123427;
+            padding: 6px 9px;
+            border-radius: 7px;
+        }
+
+        .card h2 {
+            font-size: 19px;
+            margin-bottom: 7px;
+        }
+
+        .pipeline {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .stage {
+            background: #121d2e;
+            border: 1px solid #263247;
+            border-radius: 12px;
+            padding: 19px 12px;
+            text-align: center;
+        }
+
+        .stage-icon {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .stage h3 {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .stage p {
+            color: #86efac;
+            font-size: 12px;
+        }
+
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 18px;
+            margin-top: 18px;
+        }
+
+        .detail {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 14px 0;
+            border-bottom: 1px solid #263247;
+            font-size: 13px;
+        }
+
+        .detail:last-child {
+            border-bottom: none;
+        }
+
+        .value {
+            color: #cbd5e1;
+            text-align: right;
+        }
+
+        .green {
+            color: #86efac;
+        }
+
+        .footer {
+            margin-top: 30px;
+            color: #64748b;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        @media (max-width: 1000px) {
+            .sidebar {
+                width: 190px;
+            }
+
+            .cards {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .bottom-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                padding: 22px 16px;
+            }
+
+            .topbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .pipeline {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="layout">
+
+    <aside class="sidebar">
+        <div class="logo">⚡ DevOps<span>Center</span></div>
+
+        <div class="nav-label">WORKSPACE</div>
+        <div class="nav-item active">▦ &nbsp; Overview</div>
+        <div class="nav-item">◇ &nbsp; Deployments</div>
+        <div class="nav-item">⇄ &nbsp; CI/CD Pipeline</div>
+        <div class="nav-item">▣ &nbsp; Containers</div>
+        <div class="nav-item">☁ &nbsp; Cloud Infrastructure</div>
+
+        <div class="nav-label" style="margin-top: 38px;">PROJECT</div>
+        <div class="nav-item">⚙ &nbsp; Configuration</div>
+        <div class="nav-item">⌘ &nbsp; Documentation</div>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <div>
+                <h1>DevOps Control Center</h1>
+                <p class="muted">
+                    Monitor your application and deployment workflow.
+                </p>
+            </div>
+
+            <div class="live">
+                <span class="dot"></span>
+                APPLICATION ONLINE
+            </div>
+        </header>
+
+        <h2 class="section-title">Infrastructure Overview</h2>
+
+        <section class="cards">
+            <div class="card">
+                <div class="card-top">
+                    <div class="icon">🌐</div>
+                    <span class="tag">ONLINE</span>
+                </div>
+                <h2>Application</h2>
+                <p class="muted">Flask web application</p>
+            </div>
+
+            <div class="card">
+                <div class="card-top">
+                    <div class="icon">🐳</div>
+                    <span class="tag">CONFIGURED</span>
+                </div>
+                <h2>Docker</h2>
+                <p class="muted">Containerized deployment</p>
+            </div>
+
+            <div class="card">
+                <div class="card-top">
+                    <div class="icon">☸️</div>
+                    <span class="tag">CONFIGURED</span>
+                </div>
+                <h2>Kubernetes</h2>
+                <p class="muted">Deployment manifests ready</p>
+            </div>
+        </section>
+
+        <h2 class="section-title">CI/CD Pipeline</h2>
+
+        <section class="pipeline">
+            <div class="stage">
+                <div class="stage-icon">📦</div>
+                <h3>GitHub</h3>
+                <p>● Source code</p>
+            </div>
+
+            <div class="stage">
+                <div class="stage-icon">🧪</div>
+                <h3>Testing</h3>
+                <p>● Automated tests</p>
+            </div>
+
+            <div class="stage">
+                <div class="stage-icon">🐳</div>
+                <h3>Docker Hub</h3>
+                <p>● Image registry</p>
+            </div>
+
+            <div class="stage">
+                <div class="stage-icon">☸️</div>
+                <h3>Kubernetes</h3>
+                <p>● Deployment</p>
+            </div>
+        </section>
+
+        <div class="bottom-grid">
+            <section class="card">
+                <h2>Project Information</h2>
+                <p class="muted" style="margin-top: 7px;">
+                    Your end-to-end Cloud and DevOps portfolio project.
+                </p>
+
+                <div class="detail">
+                    <span>Backend</span>
+                    <span class="value">Python + Flask</span>
+                </div>
+                <div class="detail">
+                    <span>Containerization</span>
+                    <span class="value">Docker</span>
+                </div>
+                <div class="detail">
+                    <span>CI/CD</span>
+                    <span class="value">GitHub Actions</span>
+                </div>
+                <div class="detail">
+                    <span>Orchestration</span>
+                    <span class="value">Kubernetes</span>
+                </div>
+                <div class="detail">
+                    <span>Cloud / IaC</span>
+                    <span class="value">AWS + Terraform (planned)</span>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Application Health</h2>
+                <p class="muted" style="margin-top: 7px;">
+                    Use the health endpoint to check application availability.
+                </p>
+
+                <div class="detail" style="margin-top: 12px;">
+                    <span>Health endpoint</span>
+                    <span class="value">/health</span>
+                </div>
+                <div class="detail">
+                    <span>Application port</span>
+                    <span class="value">5000</span>
+                </div>
+                <div class="detail">
+                    <span>Health response</span>
+                    <span class="value green">healthy</span>
+                </div>
+
+                <a href="/health"
+                   style="display:inline-block; margin-top:22px;
+                   padding:11px 15px; background:#12304a;
+                   color:#7dd3fc; border-radius:8px;
+                   text-decoration:none; font-size:13px;">
+                    Check Health Endpoint ↗
+                </a>
+            </section>
+        </div>
+
+        <footer class="footer">
+            DevOps Control Center · Built with Flask, Docker & Kubernetes
+        </footer>
+    </main>
+</div>
+</body>
+</html>

@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
         - name: devops-capstone
-          image: manasameragu/devops-capstone:v2
+          image: manasameragu/devops-capstone:v3
           ports:
             - containerPort: 5000
